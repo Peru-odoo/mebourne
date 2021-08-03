@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales_purchases']/group/group[last()]" position="after">
+                    <group string="Consignment">
+                        <field name="is_consignment_customer"/>
+                        <field name="location_name"
+                               attrs="{'readonly': [('consignment_location_id', '!=', False)]}"/>
+                        <field name="consignment_location_id" readonly="1"
+                               attrs="{'invisible': [('consignment_location_id', '=', False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_form_branch_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.branch.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="multi_branches.res_partner_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='branch_id']" position="after">
+                    <field name="is_consignment_customer" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='branch_id']" position="attributes">
+                    <attribute name="attrs">{'required': [('is_consignment_customer', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="contacts.action_contacts" model="ir.actions.act_window">
+            <field name="domain">[('is_consignment_customer', '!=', True)]</field>
+        </record>
+        <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+            <field name="domain">[('customer', '=', True),
+                                  ('is_consignment_customer', '!=', True)]</field>
+        </record>
+        <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+            <field name="domain">[('supplier', '=', True),
+                                  ('is_consignment_customer', '!=', True)]</field>
+        </record>
+
+        <record id="action_res_partner_consignee" model="ir.actions.act_window">
+            <field name="name">Consignees</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_consignment_customer', '=', True)]</field>
+            <field name="context">{'default_is_consignment_customer': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a consignee here.
+                </p>
+                <p>
+                    You'll be able to manage consignees here.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
