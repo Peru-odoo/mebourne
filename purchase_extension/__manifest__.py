@@ -4,7 +4,7 @@
     'sequence':
     3,
     'version':
-    '13.1.9',
+    '13.2.0',
     'description':
     'Purchase Request Form and Invoice Format Extension',
     'summary':
@@ -16,6 +16,7 @@
         'views/action_manager.xml',
         'wizard/po_list_by_vendor_wizard.xml',
         'wizard/po_payable_receivable_wizard.xml',
+        'views/purchase_extend_view.xml',
     ],
     'installable':
     True,

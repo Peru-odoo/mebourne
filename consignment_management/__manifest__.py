@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Consignment Management',
-    'version': '0.8',
+    'version': '0.9',
     'summary': 'All consignment management features.',
     'category': 'Inventory',
     'Author': 'Asia Matrix Software Solution',

@@ -85,11 +85,10 @@ class ConsignmentTransferWizard(models.Model):
                     'price_unit': line.price_unit,
                     'discount_type': line.discount_type,
                     'discount_amt': line.discount_amt,
-                    'price_subtotal': line.price_subtotal,
+                    'price_subtotal': line.price_unit * line.to_return ,
                     'transfer_line_id': line.id,
                 })
             )
-
         consignment_return = self.env['consignment.return'].create({
             'date': fields.Date.today(),
             'partner_id': consignment_transfer.partner_id.id,

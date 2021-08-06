@@ -64,7 +64,10 @@
                                        domain="[('is_consignment_warehouse', '!=', True)]"/>
                                 <field name="partner_id" required="1"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
-                                       domain="[('is_consignment_customer', '=', True)]"/>
+                                       domain="[('is_consignment_customer', '=', True)]"
+                                       widget="res_partner_many2one"
+                                       context = "{'show_address':1, 'show_vat':True, 'display_website': True}"
+                                       options="{&quot;always_reload&quot;: True}"/>
                                 <field name="user_id" required="1"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             </group>
