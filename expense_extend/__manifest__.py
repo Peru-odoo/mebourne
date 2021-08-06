@@ -2,7 +2,7 @@
 {
     'name': 'HR Expenses Extend',
 
-    'version': '0.1',
+    'version': '0.2',
 
     'summary': 'HR Expenses Extend',
 
@@ -22,6 +22,7 @@
     ],
 
     'data': [
+        'data/ir_sequences.xml',
         'views/hr_expense_views.xml',
     ],
 
