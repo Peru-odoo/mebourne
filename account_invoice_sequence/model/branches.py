@@ -4,9 +4,14 @@ from odoo import models, fields, api, _
 class Branch(models.Model):
     _inherit = 'res.branch'
 
+    code = fields.Char('Code', required=True, copy=False)
     sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
     sequence_number_next = fields.Integer(string='Next Number', compute='_compute_seq_number_next',
                                           inverse='_inverse_seq_number_next')
+
+    _sql_constraints = [
+        ('code_uniq', 'unique (code)', 'The branch code must be unique !')
+    ]
 
     @api.depends('sequence_id.number_next_actual')
     def _compute_seq_number_next(self):
