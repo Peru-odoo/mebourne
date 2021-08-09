@@ -18,6 +18,8 @@
 
     'depends': [
         'account',
+        'sale',
+        'purchase',
         'multi_branches',
     ],
 
