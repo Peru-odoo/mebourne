@@ -8,10 +8,8 @@ class PurchaseOrder(models.Model):
     def create(self, vals):
         res = super(PurchaseOrder, self).create(vals)
         if vals.get('name', 'New') == 'New':
-            if res.branch_id and not res.name:
-                po_sequence_id = self.env['res.branch'].browse(vals['branch_id']).po_sequence_id
-                if po_sequence_id:
-                    res.name = po_sequence_id._next()
+            branch = self.branch_id
+            vals['name'] = branch.po_sequence_id
         return res
 
 
