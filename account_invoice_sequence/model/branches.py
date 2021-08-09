@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class Branch(models.Model):
@@ -31,7 +32,7 @@ class Branch(models.Model):
     @api.model
     def _get_sequence_prefix(self, code):
         prefix = code.upper()
-        return prefix
+        return prefix + '/%(range_year)s/'
 
     @api.model
     def _create_sequence(self, vals):
@@ -54,5 +55,6 @@ class Branch(models.Model):
             vals.update({'sequence_id': self.sudo()._create_sequence(vals).id})
         branch = super(Branch, self).create(vals)
         return branch
+
 
 
