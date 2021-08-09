@@ -4,14 +4,35 @@ from odoo import models, fields, api, _
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    total_paid_amount = fields.Char(string='Payment Amount', compute='_get_total_')
+    def get_branch_sequence(self):
+        if self.branch_id and not self.name:
+            sequence_id = self.env['res.branch'].browse(vals['branch_id']).sequence_id
+            if sequence_id:
+                self.name = sequence_id._next()
 
-    @api.depends('amount_total_signed', 'amount_residual_signed')
-    def _get_total_(self):
-        for rec in self:
-            total_amount = rec.amount_total_signed - rec.amount_residual_signed
-            rec.total_paid_amount = format(total_amount, ".2f") + ' K'
-            # total_amount= rec.amount_total - rec.amount_residual
-            # rec.total_paid_amount = format(total_amount, ".2f") + ' K'
+    def _get_sequence(self):
+        if self.branch_id:
+            ''' Return the sequence to be used during the post of the current move.
+            :return: An ir.sequence record or False.
+            '''
+            self.ensure_one()
 
+            journal = self.journal_id
+            if self.type in ('entry', 'out_invoice', 'in_invoice', 'out_receipt', 'in_receipt') or not journal.refund_sequence:
+                return self.env.ref('account_invoice_sequence.get_branch_sequence')
+            if not journal.refund_sequence_id:
+                return
+            return journal.refund_sequence_id
+        else:
+            ''' Return the sequence to be used during the post of the current move.
+            :return: An ir.sequence record or False.
+            '''
+            self.ensure_one()
+
+            journal = self.journal_id
+            if self.type in ('entry', 'out_invoice', 'in_invoice', 'out_receipt', 'in_receipt') or not journal.refund_sequence:
+                return journal.sequence_id
+            if not journal.refund_sequence_id:
+                return
+            return journal.refund_sequence_id
 
