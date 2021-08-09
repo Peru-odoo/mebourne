@@ -7,6 +7,10 @@
             <field name="inherit_id" ref="multi_branches.view_branch_from"/>
             <field name="arch" type="xml">
                 <xpath expr="//form//div[hasclass('oe_title')]//h1" position="after">
+                    <div>
+                        <lable for="code"/>
+                        <field name="code"/>
+                    </div>
                     <field name="sequence_number_next"/>
                     <field name="sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
                 </xpath>
@@ -18,12 +22,10 @@
             <field name="model">res.branch</field>
             <field name="inherit_id" ref="multi_branches.view_branch_tree"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="code"/>
+                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <div>
-                        <lable for="code"/>
-                        <field name="code"/>
-                    </div>
-
                     <field name="sequence_number_next"/>
                     <field name="sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
                 </xpath>
