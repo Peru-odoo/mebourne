@@ -8,93 +8,95 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[1]" position="after">
                     <page name="code" string="Sequence Code Generate">
-                        <group name="sale" string="SO Generate Code">
-                            <label for="so_code"/>
-                            <div class="o_row">
-                                <field name="so_code"/>
-                            </div>
-                            <label for="so_sequence_number_next"/>
-                            <div class="row">
-                                <field name="so_sequence_number_next"/>
-                                <field name="so_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="purchase" string="PO Generate Code">
-                            <label for="po_code"/>
-                            <div class="o_row">
-                                <field name="po_code"/>
-                            </div>
-                            <label for="po_sequence_number_next"/>
-                            <div class="row">
-                                <field name="po_sequence_number_next"/>
-                                <field name="po_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="customer_inv" string="Invoice Generate Code">
-                            <label for="inv_code"/>
-                            <div class="o_row">
-                                <field name="inv_code"/>
-                            </div>
-                            <label for="inv_sequence_number_next"/>
-                            <div class="row">
-                                <field name="inv_sequence_number_next"/>
-                                <field name="inv_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="bill" string="Bill Generate Code">
-                            <label for="bill_code"/>
-                            <div class="o_row">
-                                <field name="bill_code"/>
-                            </div>
-                            <label for="bill_sequence_number_next"/>
-                            <div class="row">
-                                <field name="bill_sequence_number_next"/>
-                                <field name="bill_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="Credit" string="Credit Generate Code">
-                            <label for="credit_code"/>
-                            <div class="o_row">
-                                <field name="credit_code"/>
-                            </div>
-                            <label for="credit_sequence_number_next"/>
-                            <div class="row">
-                                <field name="credit_sequence_number_next"/>
-                                <field name="credit_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="refund" string="Refund Generate Code">
-                            <label for="refund_code"/>
-                            <div class="o_row">
-                                <field name="refund_code"/>
-                            </div>
-                            <label for="refund_sequence_number_next"/>
-                            <div class="row">
-                                <field name="refund_sequence_number_next"/>
-                                <field name="refund_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="cus" string="Customer Payment Generate Code">
-                            <label for="cus_code"/>
-                            <div class="o_row">
-                                <field name="cus_code"/>
-                            </div>
-                            <label for="cus_sequence_number_next"/>
-                            <div class="row">
-                                <field name="cus_sequence_number_next"/>
-                                <field name="cus_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
-                        </group>
-                        <group name="ven" string="Vendor Payment Generate Code">
-                            <label for="ven_code"/>
-                            <div class="o_row">
-                                <field name="ven_code"/>
-                            </div>
-                            <label for="ven_sequence_number_next"/>
-                            <div class="row">
-                                <field name="ven_sequence_number_next"/>
-                                <field name="ven_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
-                            </div>
+                        <group>
+                            <group name="sale" string="SO Generate Code">
+                                <label for="so_code"/>
+                                <div class="o_row">
+                                    <field name="so_code"/>
+                                </div>
+                                <label for="so_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="so_sequence_number_next"/>
+                                    <field name="so_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="purchase" string="PO Generate Code">
+                                <label for="po_code"/>
+                                <div class="o_row">
+                                    <field name="po_code"/>
+                                </div>
+                                <label for="po_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="po_sequence_number_next"/>
+                                    <field name="po_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="customer_inv" string="Invoice Generate Code">
+                                <label for="inv_code"/>
+                                <div class="o_row">
+                                    <field name="inv_code"/>
+                                </div>
+                                <label for="inv_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="inv_sequence_number_next"/>
+                                    <field name="inv_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="bill" string="Bill Generate Code">
+                                <label for="bill_code"/>
+                                <div class="o_row">
+                                    <field name="bill_code"/>
+                                </div>
+                                <label for="bill_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="bill_sequence_number_next"/>
+                                    <field name="bill_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="Credit" string="Credit Generate Code">
+                                <label for="credit_code"/>
+                                <div class="o_row">
+                                    <field name="credit_code"/>
+                                </div>
+                                <label for="credit_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="credit_sequence_number_next"/>
+                                    <field name="credit_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="refund" string="Refund Generate Code">
+                                <label for="refund_code"/>
+                                <div class="o_row">
+                                    <field name="refund_code"/>
+                                </div>
+                                <label for="refund_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="refund_sequence_number_next"/>
+                                    <field name="refund_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="cus" string="Customer Payment Generate Code">
+                                <label for="cus_code"/>
+                                <div class="o_row">
+                                    <field name="cus_code"/>
+                                </div>
+                                <label for="cus_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="cus_sequence_number_next"/>
+                                    <field name="cus_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
+                            <group name="ven" string="Vendor Payment Generate Code">
+                                <label for="ven_code"/>
+                                <div class="o_row">
+                                    <field name="ven_code"/>
+                                </div>
+                                <label for="ven_sequence_number_next"/>
+                                <div class="row">
+                                    <field name="ven_sequence_number_next"/>
+                                    <field name="ven_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                                </div>
+                            </group>
                         </group>
                     </page>
                 </xpath>

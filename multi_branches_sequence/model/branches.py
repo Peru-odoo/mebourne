@@ -207,7 +207,7 @@ class Branch(models.Model):
 
     @api.model
     def _create_so_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['so_code'])
+        prefix = self._get_so_sequence_prefix(vals['so_code'])
         seq_name = vals['so_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -222,7 +222,7 @@ class Branch(models.Model):
 
     @api.model
     def _create_po_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['po_code'])
+        prefix = self._get_po_sequence_prefix(vals['po_code'])
         seq_name = vals['po_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -237,7 +237,7 @@ class Branch(models.Model):
 
     @api.model
     def _create_inv_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['inv_code'])
+        prefix = self._get_inv_sequence_prefix(vals['inv_code'])
         seq_name = vals['inv_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -252,7 +252,7 @@ class Branch(models.Model):
 
     @api.model
     def _create_bill_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['bill_code'])
+        prefix = self._get_bill_sequence_prefix(vals['bill_code'])
         seq_name = vals['bill_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -267,7 +267,7 @@ class Branch(models.Model):
 
     @api.model
     def _create_credit_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['credit_code'])
+        prefix = self._get_credit_sequence_prefix(vals['credit_code'])
         seq_name = vals['credit_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -281,8 +281,8 @@ class Branch(models.Model):
         return seq
 
     @api.model
-    def _create_bill_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['refund_code'])
+    def _create_refund_sequence(self, vals):
+        prefix = self._get_refund_sequence_prefix(vals['refund_code'])
         seq_name = vals['refund_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -296,8 +296,8 @@ class Branch(models.Model):
         return seq
 
     @api.model
-    def _create_bill_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['cus_code'])
+    def _create_cus_sequence(self, vals):
+        prefix = self._get_cus_sequence_prefix(vals['cus_code'])
         seq_name = vals['cus_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
@@ -311,8 +311,8 @@ class Branch(models.Model):
         return seq
 
     @api.model
-    def _create_bill_sequence(self, vals):
-        prefix = self._get_sequence_prefix(vals['ven_code'])
+    def _create_ven_sequence(self, vals):
+        prefix = self._get_ven_sequence_prefix(vals['ven_code'])
         seq_name = vals['ven_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
