@@ -55,3 +55,4 @@ class Branch(models.Model):
         branch = super(Branch, self).create(vals)
         return branch
 
+

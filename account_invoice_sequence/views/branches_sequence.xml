@@ -7,12 +7,14 @@
             <field name="inherit_id" ref="multi_branches.view_branch_from"/>
             <field name="arch" type="xml">
                 <xpath expr="//form//div[hasclass('oe_title')]//h1" position="after">
-                    <div>
-                        <lable for="code"/>
-                        <field name="code"/>
+                    <div class="o_row o_td_label">
+                        <label for="code"/>
                     </div>
-                    <field name="sequence_number_next"/>
-                    <field name="sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                    <div class="o_row">
+                        <field name="code"/>
+                        <field name="sequence_number_next"/>
+                        <field name="sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                    </div>
                 </xpath>
             </field>
         </record>
