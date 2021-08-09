@@ -19,7 +19,7 @@ class AccountMove(models.Model):
 
             journal = self.journal_id
             if self.type in ('entry', 'out_invoice', 'in_invoice', 'out_receipt', 'in_receipt') or not journal.refund_sequence:
-                return self.env.ref('account_invoice_sequence.get_branch_sequence')
+                return self.get_branch_sequence()
             if not journal.refund_sequence_id:
                 return
             return journal.refund_sequence_id
