@@ -11,4 +11,3 @@ class SaleOrder(models.Model):
             vals["name"] = sequence_id._next() or "/"
         return super(SaleOrder, self).create(vals)
 
-  
