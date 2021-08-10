@@ -14,12 +14,8 @@ class AccountMove(models.Model):
             branch = self.branch_id
             if self.type in ('entry', 'out_invoice') or not journal.refund_sequence:
                 return branch.inv_sequence_id
-            if self.type in ('entry', 'out_receipt') or not journal.refund_sequence:
-                return branch.credit_sequence_id
             if self.type in ('entry', 'in_invoice') or not journal.refund_sequence:
                 return branch.bill_sequence_id
-            if self.type in ('entry', 'in_receipt') or not journal.refund_sequence:
-                return branch.refund_sequence_id
             if not journal.refund_sequence_id:
                 return
             return journal.refund_sequence_id
