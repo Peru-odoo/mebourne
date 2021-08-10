@@ -5,7 +5,10 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        if self.branch_id:
-            sequence_id = self.env['res.branch'].browse(vals['branch_id']).so_sequence_id
+        branch = vals.get("branch_id", False)
+        if branch:
+            sequence_id = self.env['res.branch'].browse(branch).so_sequence_id
             vals["name"] = sequence_id._next() or "/"
         return super(SaleOrder, self).create(vals)
+
+  
