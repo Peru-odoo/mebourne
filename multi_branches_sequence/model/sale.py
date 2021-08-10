@@ -11,3 +11,11 @@ class SaleOrder(models.Model):
                 branch = self.branch_id
                 vals['name'] = branch.so_sequence_id
         return res
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            branch = self.branch_id
+            vals['name'] = branch.so_sequence_id or _('New')
+        result = super(SaleOrder, self).create(vals)
+        return result
