@@ -12,10 +12,16 @@ class account_payment(models.Model):
             if rec.partner_type == 'customer':
                 if rec.payment_type == 'inbound':
                     sequence_id = branch.cus_sequence_id
-                    rec.name = sequence_id
+                    if sequence_id:
+                        rec.name = sequence_id._next()
+                    else:
+                        raise UserError(_("Please define a sequence on your branch."))
+
             if rec.partner_type == 'supplier':
                 if rec.payment_type == 'inbound':
                     sequence_id = branch.ven_sequence_id
-                    rec.name = sequence_id
-
+                    if sequence_id:
+                        rec.name = sequence_id._next()
+                    else:
+                        raise UserError(_("Please define a sequence on your branch."))
         return res
