@@ -8,19 +8,18 @@ class account_payment(models.Model):
         res = super(account_payment, self).post()
         for rec in self:
             branch = rec.branch_id
-            sequence_code = '/'
             if rec.partner_type == 'customer':
                 if rec.payment_type == 'inbound':
                     sequence_code = branch.cus_sequence_id
+                    rec.name = sequence_code._next()
                 if rec.payment_type == 'outbound':
                     sequence_code = branch.cusout_sequence_id
+                    rec.name = sequence_code._next()
             if rec.partner_type == 'supplier':
                 if rec.payment_type == 'inbound':
                     sequence_code = branch.venout_sequence_id
+                    rec.name = sequence_code._next()
                 if rec.payment_type == 'outbound':
                     sequence_code = branch.ven_sequence_id
-            if sequence_code:
-                rec.name = sequence_code._next()
-            else:
-                raise UserError(_("Please define a sequence on your branch."))
+                    rec.name = sequence_code._next()
         return res
