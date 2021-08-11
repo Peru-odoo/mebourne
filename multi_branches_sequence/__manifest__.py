@@ -5,8 +5,10 @@
     'summary': """Multi Branch Sequence""",
 
     'description': """
-        Sale, Purchase, Customer Invoice, Vendor Bill,
-        Credit Note, Refund and Payment added multi branch sequence.
+        Sale, Purchase, 
+        Customer Invoice, Vendor Bill,
+        Credit Note, Refund and Payment 
+        added multi branch sequence number.
     """,
 
     'author': "asiamatrix",
