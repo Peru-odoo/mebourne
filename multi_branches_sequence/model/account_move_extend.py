@@ -8,8 +8,8 @@ class AccountMove(models.Model):
         res = super(AccountMove, self)._get_sequence()
         journal = self.journal_id
         branch = self.branch_id
-        if self.type in ('entry', 'out_invoice', 'out_receipt') or not journal.refund_sequence:
+        if self.type in 'out_invoice' or not journal.refund_sequence:
             return branch.inv_sequence_id
-        if self.type in ('entry', 'in_invoice', 'in_receipt') or not journal.refund_sequence:
+        if self.type in 'in_invoice' or not journal.refund_sequence:
             return branch.bill_sequence_id
         return res
