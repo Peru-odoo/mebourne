@@ -14,14 +14,18 @@ class account_payment(models.Model):
                     sequence_id = branch.cus_sequence_id
                     if sequence_id:
                         rec.name = sequence_id._next()
-                    else:
-                        raise UserError(_("Please define a sequence on your branch."))
+                if rec.payment_type == 'outbound':
+                    sequence_id = branch.cusout_sequence_id
+                    if sequence_id:
+                        rec.name = sequence_id._next()
 
             if rec.partner_type == 'supplier':
                 if rec.payment_type == 'inbound':
+                    sequence_id = branch.venout_sequence_id
+                    if sequence_id:
+                        rec.name = sequence_id._next()
+                if rec.payment_type == 'outbound':
                     sequence_id = branch.ven_sequence_id
                     if sequence_id:
                         rec.name = sequence_id._next()
-                    else:
-                        raise UserError(_("Please define a sequence on your branch."))
         return res

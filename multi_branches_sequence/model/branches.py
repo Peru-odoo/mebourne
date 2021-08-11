@@ -45,6 +45,16 @@ class Branch(models.Model):
     ven_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_ven_seq_number_next',
                                                  inverse='_inverse_ven_seq_number_next')
 
+    cusout_code = fields.Char('Customer/Out Payment Code')
+    cusout_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
+    cusout_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_cusout_seq_number_next',
+                                              inverse='_inverse_cusout_seq_number_next')
+
+    venout_code = fields.Char('Vendor/Out Payment Code')
+    venout_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
+    venout_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_venout_seq_number_next',
+                                              inverse='_inverse_venout_seq_number_next')
+
     @api.depends('so_sequence_id.number_next_actual')
     def _compute_so_seq_number_next(self):
         for branch in self:
@@ -108,6 +118,15 @@ class Branch(models.Model):
             else:
                 branch.cus_sequence_number_next = 1
 
+    @api.depends('cusout_sequence_id.number_next_actual')
+    def _compute_cusout_seq_number_next(self):
+        for branch in self:
+            if branch.cusout_sequence_id:
+                sequence = branch.cusout_sequence_id._get_current_sequence()
+                branch.cusout_sequence_number_next = sequence.number_next_actual
+            else:
+                branch.cusout_sequence_number_next = 1
+
     @api.depends('ven_sequence_id.number_next_actual')
     def _compute_ven_seq_number_next(self):
         for branch in self:
@@ -116,6 +135,15 @@ class Branch(models.Model):
                 branch.ven_sequence_number_next = sequence.number_next_actual
             else:
                 branch.ven_sequence_number_next = 1
+
+    @api.depends('venout_sequence_id.number_next_actual')
+    def _compute_venout_seq_number_next(self):
+        for branch in self:
+            if branch.venout_sequence_id:
+                sequence = branch.venout_sequence_id._get_current_sequence()
+                branch.venout_sequence_number_next = sequence.number_next_actual
+            else:
+                branch.venout_sequence_number_next = 1
 
     def _inverse_so_seq_number_next(self):
         for branch in self:
@@ -159,11 +187,23 @@ class Branch(models.Model):
                 sequence = branch.cus_sequence_id._get_current_sequence()
                 sequence.sudo().number_next = branch.cus_sequence_number_next
 
+    def _inverse_cusout_seq_number_next(self):
+        for branch in self:
+            if branch.cusout_sequence_id and branch.cusout_sequence_number_next:
+                sequence = branch.cusout_sequence_id._get_current_sequence()
+                sequence.sudo().number_next = branch.cusout_sequence_number_next
+
     def _inverse_ven_seq_number_next(self):
         for branch in self:
             if branch.ven_sequence_id and branch.ven_sequence_number_next:
                 sequence = branch.ven_sequence_id._get_current_sequence()
                 sequence.sudo().number_next = branch.ven_sequence_number_next
+
+    def _inverse_venout_seq_number_next(self):
+        for branch in self:
+            if branch.venout_sequence_id and branch.venout_sequence_number_next:
+                sequence = branch.venout_sequence_id._get_current_sequence()
+                sequence.sudo().number_next = branch.venout_sequence_number_next
 
     @api.model
     def _get_so_sequence_prefix(self, so_code):
@@ -201,8 +241,18 @@ class Branch(models.Model):
         return prefix + '/%(range_year)s/'
 
     @api.model
+    def _get_cusout_sequence_prefix(self, cusout_code):
+        prefix = cusout_code.upper()
+        return prefix + '/%(range_year)s/'
+
+    @api.model
     def _get_ven_sequence_prefix(self, ven_code):
         prefix = ven_code.upper()
+        return prefix + '/%(range_year)s/'
+
+    @api.model
+    def _get_venout_sequence_prefix(self, venout_code):
+        prefix = venout_code.upper()
         return prefix + '/%(range_year)s/'
 
     @api.model
@@ -311,9 +361,39 @@ class Branch(models.Model):
         return seq
 
     @api.model
+    def _create_cusout_sequence(self, vals):
+        prefix = self._get_cusout_sequence_prefix(vals['cusout_code'])
+        seq_name = vals['cusout_code']
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 3,
+            'number_increment': 1,
+            'use_date_range': False,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
     def _create_ven_sequence(self, vals):
         prefix = self._get_ven_sequence_prefix(vals['ven_code'])
         seq_name = vals['ven_code']
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 3,
+            'number_increment': 1,
+            'use_date_range': False,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
+    def _create_venout_sequence(self, vals):
+        prefix = self._get_venout_sequence_prefix(vals['venout_code'])
+        seq_name = vals['venout_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
             'implementation': 'no_gap',
@@ -341,8 +421,12 @@ class Branch(models.Model):
             vals.update({'refund_sequence_id': self.sudo()._create_refund_sequence(vals).id})
         if not vals.get('cus_sequence_id'):
             vals.update({'cus_sequence_id': self.sudo()._create_cus_sequence(vals).id})
+        if not vals.get('cusout_sequence_id'):
+            vals.update({'cusout_sequence_id': self.sudo()._create_cusout_sequence(vals).id})
         if not vals.get('ven_sequence_id'):
             vals.update({'ven_sequence_id': self.sudo()._create_ven_sequence(vals).id})
+        if not vals.get('venout_sequence_id'):
+            vals.update({'venout_sequence_id': self.sudo()._create_venout_sequence(vals).id})
         branch = super(Branch, self).create(vals)
         return branch
 
