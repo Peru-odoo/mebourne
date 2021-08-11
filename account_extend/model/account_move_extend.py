@@ -6,7 +6,7 @@ class AccountMove(models.Model):
 
     total_paid_amount = fields.Char(string='Payment Amount', compute='_get_total_')
 
-    payment_date = fields.Date(string='Payment Date', compute='_get_payment_date')
+    payment_date = fields.Char(string='Payment Date', compute='_get_payment_date')
 
     @api.depends('total_paid_amount')
     def _get_payment_date(self):
