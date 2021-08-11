@@ -6,13 +6,6 @@
             <field name="model">hr.expense</field>
             <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@name='button_box']" position="after">
-                    <div class="oe_title">
-                        <h1>
-                            <field name="sequence" readonly="1"/>
-                        </h1>
-                    </div>
-                </xpath>
                 <field name="employee_id" position="after">
                     <field name="department_id" options="{'no_create': True}"/>
                     <field name="branch_id" groups="multi_branches.group_multi_branch"
@@ -48,6 +41,13 @@
                 </xpath>
                 <xpath expr="//button[@name='approve_expense_sheets']" position="attributes">
                     <attribute name="states">first_approved</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="after">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                    </div>
                 </xpath>
             </field>
         </record>

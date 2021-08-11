@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="domain">[('customer', '=', True)]</attribute>
-                    <attribute name="context">{'default_supplier':0, 'default_customer':1, 'show_address':1, 'show_vat':True, 'display_website': True}</attribute>
+                    <attribute name="context">{'default_supplier':0, 'default_customer':1, 'display_website': True}</attribute>
                 </xpath>
             </field>
         </record>

@@ -2,7 +2,7 @@
 {
     'name': 'Base Customer and Supplier',
 
-    'version': '1.1',
+    'version': '1.2',
 
     'summary': 'Added Customer and Supplier boolean field',
 

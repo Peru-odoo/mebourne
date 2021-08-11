@@ -65,9 +65,25 @@
                                 <field name="partner_id" required="1"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
                                        domain="[('is_consignment_customer', '=', True)]"
+                                       />
+                                <!-- <field name="partner_id" required="1"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                       domain="[('is_consignment_customer', '=', True)]"
                                        widget="res_partner_many2one"
                                        context = "{'show_address':1, 'show_vat':True, 'display_website': True}"
-                                       options="{&quot;always_reload&quot;: True}"/>
+                                       options="{&quot;always_reload&quot;: True}"/> -->
+                                <label for="" name="address_name">
+                                    <b invisible="1">Address</b>
+                                </label>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street" />
+                                    <field name="street2" placeholder="Street..." class="o_address_street"/>
+                                    <field name="township_id" placeholder="Township..." class="o_address_street" options='{"no_open": True}'/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="ph_no" placeholder="Phone" class="o_address_phone"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="ZIP" class="o_address_street" options='{"no_open": True}'/>
+                                </div>
                                 <field name="user_id" required="1"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             </group>

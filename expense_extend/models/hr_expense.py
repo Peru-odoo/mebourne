@@ -14,7 +14,7 @@ class HrExpense(models.Model):
     branch_id = fields.Many2one("res.branch", string='Branch', default=lambda self: self.env.user.branch_id, index=True,
                                 states={'draft': [('readonly', False)], 'reported': [('readonly', False)],
                                         'refused': [('readonly', False)]},)
-    sequence = fields.Char("Sequence", default="New")
+    
 
     state = fields.Selection([
         ('draft', 'To Submit'),
@@ -56,14 +56,6 @@ class HrExpense(models.Model):
         else:
             return {'domain': {'branch_id': []}}
 
-    @api.model
-    def create(self, vals):
-        if vals.get('sequence', _('New')) == _('New'):
-            vals['sequence'] = self.env['ir.sequence'].next_by_code('hr.expense') or _('New')
-        res = super(HrExpense, self).create(vals)
-        return res
-
-
 class HrExpenseSheet(models.Model):
     _inherit = "hr.expense.sheet"
 
@@ -81,6 +73,8 @@ class HrExpenseSheet(models.Model):
         ('cancel', 'Refused')
     ], string='Status', index=True, readonly=True, tracking=True, copy=False, default='draft', required=True, help='Expense Report State')
 
+    sequence = fields.Char("Sequence", default="New",copy=False)
+
     @api.onchange('company_id')
     def _onchange_company_id(self):
         if self.company_id:
@@ -94,6 +88,16 @@ class HrExpenseSheet(models.Model):
     def action_submit_sheet(self):
         self.write({'state': 'submit'})
         self.activity_update()
+        if self.sequence == 'New':
+            self.sequence = self.env['ir.sequence'].next_by_code('hr.expense.sheet') or _('New')
 
     def first_approve_expense_sheets(self):
         self.write({'state': 'first_approved'})
+
+    @api.constrains('expense_line_ids', 'employee_id')
+    def _check_employee(self):
+        for sheet in self:
+            employee_ids = sheet.expense_line_ids.mapped('employee_id')
+            if len(employee_ids) > 1 or (len(employee_ids) == 1 and employee_ids != sheet.employee_id):
+                # raise ValidationError(_('You cannot add expenses of another employee.'))
+                print("You cannot add expenses of another employee.")

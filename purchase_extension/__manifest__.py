@@ -4,7 +4,7 @@
     'sequence':
     3,
     'version':
-    '13.2.0',
+    '13.2.1',
     'description':
     'Purchase Request Form and Invoice Format Extension',
     'summary':
