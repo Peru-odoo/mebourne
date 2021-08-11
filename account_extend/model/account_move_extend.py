@@ -6,18 +6,9 @@ class AccountMove(models.Model):
 
     total_paid_amount = fields.Char(string='Payment Amount', compute='_get_total_')
 
-    payment_date = fields.Date(string='Payment Date', compute='_get_payment_date')
-
-    def _get_payment_date(self):
-        for rec in self:
-            if rec.total_paid_amount:
-                rec.payment_date = self.env['account.payment'].search([('communication', '=', rec.name)],
-                                                                      limit=1).payment_date
-
-    @api.depends('amount_total_signed', 'amount_residual_signed')
+    @api.depends('amount_total', 'amount_residual')
     def _get_total_(self):
         for rec in self:
-            total_amount = rec.amount_total_signed - rec.amount_residual_signed
+            total_amount= rec.amount_total - rec.amount_residual
             rec.total_paid_amount = format(total_amount, ".2f") + ' K'
-            # total_amount= rec.amount_total - rec.amount_residual
-            # rec.total_paid_amount = format(total_amount, ".2f") + ' K'
+

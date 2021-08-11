@@ -6,7 +6,6 @@
       <field name="arch" type="xml">
         <xpath expr="//field[@name='amount_total_signed']" position="after">
             <field name="total_paid_amount"/>
-            <field name="payment_date"/>
         </xpath>
 
       </field>
