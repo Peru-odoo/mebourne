@@ -12,7 +12,7 @@
     'author': "znl",
     'website': "http://www.asiamatrixsoftware.com",
     'category': 'Accounting',
-    'version': '0.7',
+    'version': '0.3',
     'depends': ['account'],
     'data': [
 
