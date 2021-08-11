@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Account Invoice Sequence",
+    'name': "Multi Branch Sequence",
 
-    'summary': """Customer Invoice Sequence""",
+    'summary': """Multi Branch Sequence""",
 
     'description': """
-        Customer Invoice Sequence By Branch.
+        Sale, Purchase, Customer Invoice, Vendor Bill,
+        Credit Note, Refund and Payment added multi branch sequence.
     """,
 
     'author': "asiamatrix",

@@ -45,12 +45,12 @@ class Branch(models.Model):
     ven_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_ven_seq_number_next',
                                                  inverse='_inverse_ven_seq_number_next')
 
-    cusout_code = fields.Char('Customer/Out Payment Code')
+    cusout_code = fields.Char('Customer/Out Payment')
     cusout_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
     cusout_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_cusout_seq_number_next',
                                               inverse='_inverse_cusout_seq_number_next')
 
-    venout_code = fields.Char('Vendor/Out Payment Code')
+    venout_code = fields.Char('Vendor/Out Payment')
     venout_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
     venout_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_venout_seq_number_next',
                                               inverse='_inverse_venout_seq_number_next')
