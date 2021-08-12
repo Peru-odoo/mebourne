@@ -23,7 +23,7 @@ class PurchaseOrder(models.Model):
 class PurchseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    brand_id = fields.Many2one('product.brand', string='Category')
+    brand_id = fields.Many2one('product.brand', string='Category ')
 
     @api.onchange('product_id')
     def _onchange_product(self):
