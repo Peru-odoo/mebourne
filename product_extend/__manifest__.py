@@ -9,7 +9,7 @@
     'author': "Asiamatrix",
     'website': "http://www.asiamatrixsoftware.com",
     'category': 'Product',
-    'version': '1.0',
+    'version': '1.1',
     'depends': ['product','sale','product_brand','multi_branches'],
     'data': [
         'views/product_category.xml',

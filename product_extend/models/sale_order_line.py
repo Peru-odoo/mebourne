@@ -7,7 +7,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     _description = 'Sale Order Line'
 
-    brand_id = fields.Many2one('product.brand', string='Category')
+    brand_id = fields.Many2one('product.brand', string=' Category')
 
     @api.onchange('product_id')
     def _onchange_product(self):
