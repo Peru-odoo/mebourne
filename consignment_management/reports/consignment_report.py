@@ -16,30 +16,45 @@ class ConsignmentReport(models.Model):
     returned_qty = fields.Float('Returned Qty')
     ordered_qty = fields.Float('Ordered Qty')
     qty_left = fields.Float('Qty to be Ordered')
+    transfer_price = fields.Monetary('Transfer Price', currency_field='transfer_currency_id')
+    sale_price = fields.Monetary('Sale Price', currency_field='sale_currency_id')
+    transfer_currency_id = fields.Many2one('res.currency', 'Transfer Currency')
+    sale_currency_id = fields.Many2one('res.currency', 'Sale Currency')
     state = fields.Selection([('draft', 'Draft'),
                               ('confirm', 'Confirmed'),
                               ('deliver', 'Delivered'),
                               ('close', 'Closed'),
                               ('cancel', 'Cancelled')])
 
-    @staticmethod
-    def _query():
-        return '''
+    def _query(self):
+        return f'''
         SELECT      ROW_NUMBER() OVER(ORDER BY DATE(TRANS.DATE)) AS ID,
                     TRANS.NAME AS REF,
                     DATE(TRANS.DATE) AS DATE,
                     LINE.PRODUCT_ID AS PRODUCT_ID,
                     TRANS.PARTNER_ID AS PARTNER_ID,
                     PARTNER.CONSIGNMENT_LOCATION_ID AS LOCATION_ID,
+                    
                     COALESCE(LINE.DELIVERED_QTY, 0) AS TRANSFERRED_QTY,
                     COALESCE(LINE.RETURNED_QTY, 0) AS RETURNED_QTY,
                     COALESCE(LINE.ORDERED_QTY, 0) AS ORDERED_QTY,
                     COALESCE(LINE.QTY_LEFT, 0) AS QTY_LEFT,
+                    SOL.PRICE_UNIT AS SALE_PRICE,
+                    LINE.PRICE_UNIT AS TRANSFER_PRICE,
+                    CASE
+                        WHEN SOL.CURRENCY_ID IS NOT NULL THEN SOL.CURRENCY_ID
+                        ELSE (SELECT CURRENCY_ID FROM RES_COMPANY WHERE ID = {self.env.company.currency_id.id})
+                    END AS SALE_CURRENCY_ID,
+                    CASE
+                        WHEN LINE.CURRENCY_ID IS NOT NULL THEN LINE.CURRENCY_ID
+                        ELSE (SELECT CURRENCY_ID FROM RES_COMPANY WHERE ID = {self.env.company.currency_id.id})
+                    END AS TRANSFER_CURRENCY_ID,
                     TRANS.STATE AS STATE
                   
         FROM        CONSIGNMENT_TRANSFER_LINE AS LINE
                     LEFT JOIN CONSIGNMENT_TRANSFER TRANS ON TRANS.ID=LINE.CONSIGNMENT_TRANSFER_ID
                     LEFT JOIN RES_PARTNER PARTNER ON PARTNER.ID=TRANS.PARTNER_ID
+                    LEFT JOIN SALE_ORDER_LINE SOL ON SOL.TRANSFER_LINE_ID=LINE.ID
 
         WHERE       TRANS.STATE NOT IN ('cancel')
 

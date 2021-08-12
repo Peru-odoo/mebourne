@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Net Sale Report',
-    'version': '0.2',
+    'version': '0.3',
     'summary': 'Net Sale Report',
     'category': 'Sale Report',
     'website': "www.asiamatrixsoftware.com",

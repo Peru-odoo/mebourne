@@ -42,19 +42,6 @@ class ConsignmentTransfer(models.Model):
     country_id = fields.Many2one("res.country",related="partner_id.country_id",readonly=True)
 
     @api.onchange('partner_id')
-    def _onchange_district(self):
-        if self.partner_id:
-            self.street = self.partner_id.street
-            self.street2 = self.partner_id.street2
-            self.city = self.partner_id.city
-            if self.ph_no:
-
-                self.ph_no = self.partner_id.phone
-            else:
-                return ""
-
-
-    @api.onchange('partner_id')
     def onchange_partner_id(self):
         self.branch_id = self.partner_id.branch_id.id
         if self.partner_id:
