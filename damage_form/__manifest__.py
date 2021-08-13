@@ -9,7 +9,7 @@
     'author': "THA",
     'website': "http://www.asiamatrixsoftware.com",
     'category': 'Sale',
-    'version': '3.3',
+    'version': '3.4',
     'depends': ['sample_give_form', 'product_extend'],
     'data': [
         'security/ir.model.access.csv',

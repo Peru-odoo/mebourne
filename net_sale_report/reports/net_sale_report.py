@@ -15,7 +15,7 @@ class NetSaleReport(models.Model):
     sale_man_id = fields.Many2one('res.users', 'Sale Man Name')
     sale_team_id = fields.Many2one('crm.team', 'Sale Team')
     item_code = fields.Char('Item Code')
-    brand_id = fields.Many2one('product.brand', 'Brand')
+    brand_id = fields.Many2one('product.brand', 'Category')
     sale_qty = fields.Float('Sale Qty')
     sale_amt = fields.Float('Sale Amount')
     returned_qty = fields.Float('Return Qty')

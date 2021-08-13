@@ -16,14 +16,16 @@ class HrExpense(models.Model):
                                         'refused': [('readonly', False)]},)
     
 
-    state = fields.Selection([
-        ('draft', 'To Submit'),
-        ('reported', 'Submitted'),
-        ('first_approved', 'First Approved'),
-        ('approved', 'Approved'),
-        ('done', 'Paid'),
-        ('refused', 'Refused')
-    ], compute='_compute_state', string='Status', copy=False, index=True, readonly=True, store=True, help="Status of the expense.")
+    # state = fields.Selection([
+    #     ('draft', 'To Submit'),
+    #     ('reported', 'Submitted'),
+    #     ('first_approved', 'First Approved'),
+    #     ('approved', 'Approved'),
+    #     ('done', 'Paid'),
+    #     ('refused', 'Refused')
+    # ], compute='_compute_state', string='Status', copy=False, index=True, readonly=True, store=True, help="Status of the expense.")
+
+    state = fields.Selection(selection_add=[('first_approved', 'First Approved'),('approved',)])
 
     @api.depends('sheet_id', 'sheet_id.account_move_id', 'sheet_id.state')
     def _compute_state(self):
@@ -63,15 +65,17 @@ class HrExpenseSheet(models.Model):
                                 states={'draft': [('readonly', False)], 'reported': [('readonly', False)],
                                         'refused': [('readonly', False)]}, )
 
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('submit', 'Submitted'),
-        ('first_approved', 'First Approved'),
-        ('approve', 'Approved'),
-        ('post', 'Posted'),
-        ('done', 'Paid'),
-        ('cancel', 'Refused')
-    ], string='Status', index=True, readonly=True, tracking=True, copy=False, default='draft', required=True, help='Expense Report State')
+    # state = fields.Selection([
+    #     ('draft', 'Draft'),
+    #     ('submit', 'Submitted'),
+    #     ('first_approved', 'First Approved'),
+    #     ('approve', 'Approved'),
+    #     ('post', 'Posted'),
+    #     ('done', 'Paid'),
+    #     ('cancel', 'Refused')
+    # ], string='Status', index=True, readonly=True, tracking=True, copy=False, default='draft', required=True, help='Expense Report State')
+
+    state = fields.Selection(selection_add=[('first_approved', 'First Approved'),('approve',)])
 
     sequence = fields.Char("Sequence", default="New",copy=False)
 

@@ -296,7 +296,7 @@ class SaleSampleGiveLine(models.Model):
     deliver_qty = fields.Integer("Deliver Qty")
     return_qty = fields.Integer('Return Qty')
     balance_qty = fields.Integer('Balance Qty')
-    product_brand_id = fields.Many2one('product.brand', string='Brand')
+    product_brand_id = fields.Many2one('product.brand', string='Category')
     picking_type_id = fields.Many2one('stock.picking.type', 'Operation Type',
                                       domain=[('code', 'in', ['incoming', 'outgoing'])])
 

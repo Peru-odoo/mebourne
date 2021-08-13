@@ -5,5 +5,5 @@ class ProductTemplate(models.Model):
 
     _inherit = 'product.template'
 
-    consignment_ok = fields.Boolean('Can be sold for Consignment', default=False)
+    consignment_ok = fields.Boolean('Can be sold for Consignment', default=True)
 

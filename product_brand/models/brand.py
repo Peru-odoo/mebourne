@@ -37,14 +37,14 @@ class BrandProduct(models.Model):
 class ProductBrand(models.Model):
     _inherit = 'product.template'
 
-    brand_id = fields.Many2one('product.brand', string='Brand')
+    brand_id = fields.Many2one('product.brand', string='Category')
     short_code = fields.Char(string='Short Code', related='brand_id.short_code')
 
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    brand_id = fields.Many2one('product.brand', string='Brand', related="product_tmpl_id.brand_id", store=True)
+    brand_id = fields.Many2one('product.brand', string='Category', related="product_tmpl_id.brand_id", store=True)
     short_code = fields.Char(string='Short Code', related='brand_id.short_code', store=True)
 
 
@@ -52,4 +52,4 @@ class BrandReportStock(models.Model):
     _inherit = 'stock.quant'
 
     brand_id = fields.Many2one(related='product_id.brand_id',
-                               string='Brand', store=True, readonly=True)
+                               string='Category', store=True, readonly=True)

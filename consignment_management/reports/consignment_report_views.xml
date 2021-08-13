@@ -57,8 +57,10 @@
                     <field name="partner_id"/>
                     <field name="location_id"/>
                     <field name="transferred_qty"/>
+                    <field name="transfer_price"/>
                     <field name="returned_qty"/>
                     <field name="ordered_qty"/>
+                    <field name="sale_price"/>
                     <field name="qty_left"/>
                     <field name="state"/>
                 </tree>
