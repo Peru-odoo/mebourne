@@ -43,7 +43,7 @@ class inventory_reports(models.TransientModel):
     sort_order = fields.Selection(
         selection=[
             ('warehouse', 'Location'),
-            ('product_category', 'Product Category')
+            ('product_brand', 'Product Brand')
         ],
         string='Group By',
         required=True,

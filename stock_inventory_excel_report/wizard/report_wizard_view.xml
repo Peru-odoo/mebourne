@@ -25,7 +25,7 @@
                         <field name="end_date" />
                         <field name="sort_order"/>
                     </group>
-                    <group attrs="{'invisible': [('sort_order', '=', 'product_category')]}"
+                    <group attrs="{'invisible': [('sort_order', '=', 'product_brand')]}"
                         string="Select Products">
                         <field name="filter_product_ids" nolabel="1" options="{'no_quick_create':True,'no_create_edit':True}">
                             <tree string="Products">
@@ -37,7 +37,7 @@
                         </field>
                     </group>
                     <group attrs="{'invisible': [('sort_order', '=', 'warehouse')]}"
-                        string="Select Categories">
+                        string="Select Product Brand">
                         <field name="filter_product_categ_ids" nolabel="1" options="{'no_quick_create':True,'no_create_edit':True}">
                             <tree string="Products">
                                 <field name="name" />
