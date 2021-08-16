@@ -2,7 +2,7 @@
 {
     'name': 'HR Expenses Extend',
 
-    'version': '0.3',
+    'version': '0.5',
 
     'summary': 'HR Expenses Extend',
 
