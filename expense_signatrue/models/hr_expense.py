@@ -6,9 +6,9 @@ class HrExpenseSheet(models.Model):
     _inherit = "hr.expense.sheet"
 
     first_signature = fields.Binary(string='First approval', attachment=True)
-    first_date = fields.Datetime(string='First Approve Date', help='First signature approved date', copy=False)
+    first_date = fields.Datetime(string='First approval Date', help='First signature approved date', copy=False)
     second_signature = fields.Binary(string='Second approval', attachment=True)
-    second_date = fields.Datetime(string='Second Approve Date', help='Second signature approved date', copy=False)
+    second_date = fields.Datetime(string='Second approval Date', help='Second signature approved date', copy=False)
 
     def first_approve_expense_sheets(self):
         res = super(HrExpenseSheet, self).first_approve_expense_sheets()
