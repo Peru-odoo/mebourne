@@ -2,7 +2,7 @@
 {
     'name': 'Expense Signature',
 
-    'version': '0.1',
+    'version': '0.2',
 
     'summary': 'Expense Signatrue',
 
@@ -10,6 +10,7 @@
        * Added signature in expense form.
        * Click Approval show login user signature.
        * This Signature show PDF.
+       * V2- added approved datetime.
     """,
 
     'category': 'Expense',
