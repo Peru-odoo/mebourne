@@ -9,7 +9,9 @@ class AccountMove(models.Model):
             self.ensure_one()
             journal = self.journal_id
             branch = self.branch_id
-            if self.type in ('entry', 'out_invoice', 'in_invoice', 'out_receipt', 'in_receipt') or not journal.refund_sequence:
+            if self.type in 'entry' or not journal.refund_sequence:
+                return journal.sequence_id
+            if self.type in 'out_invoice' or not journal.refund_sequence:
                 return branch.inv_sequence_id
             elif self.type in 'out_refund' or not journal.refund_sequence:
                 return branch.credit_sequence_id
