@@ -152,9 +152,9 @@ class StockReportXls(models.AbstractModel):
                         prod_name = product.name_get()[0][1]
                         sheet.write(y_offset, 1, prod_name, format5_1)
                         sheet.write(y_offset, 2, product.brand_id.name or ' _ ', format5_1)
-                        sheet.write(y_offset, 3, product.default_code or '', format5_1)
+                        sheet.write(y_offset, 3, product.categ_id.name, format5_1)
+                        sheet.write(y_offset, 4, product.default_code or '', format5_1)
                         begin_qty = report_obj._get_beginning_inventory(data, warehouse[0], l['product_id'], l) or 0.0
-                        sheet.write(y_offset, 4, product.categ_id.name, format5_1)
                         sheet.write(y_offset, 5, begin_qty, format5_1)
                         sheet.write(y_offset, 6, l['product_qty_in'], format5_1)
                         sheet.write(y_offset, 7, l['product_qty_in_return'], format5_1)

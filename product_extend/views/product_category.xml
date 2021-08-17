@@ -66,7 +66,7 @@
         parent="account.account_account_menu" sequence="3" name="Brand"/>
 
     <menuitem
-        action="product.product_category_action_form" id="stock.menu_product_category_config_stock" name="Brand"
+        action="open_view_brand_list" id="stock.menu_product_category_config_stock" name="Brand"
         parent="stock.menu_product_in_config_stock" sequence="2"/>
     <menuitem
             action="product.product_category_action_form" id="purchase.menu_product_category_config_purchase"

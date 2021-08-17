@@ -18,7 +18,7 @@ class ProductCategory(models.Model):
                 'type': 'ir.actions.act_window',
                 'name': ('Product Brand'),
                 'res_model': 'product.category',
-                'view_mode': 'tree',
+                'view_mode': 'tree,form'
 
                 }
 

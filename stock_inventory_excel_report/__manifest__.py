@@ -7,7 +7,7 @@ Inventory Report In-Out Excel
     'description': """
 Group By Product Category and Group By Location
 """,
-    "version": "1.0",
+    "version": "1.1",
     "category": "stock",
     'author': "Matrix",
     'license': 'Other proprietary',
