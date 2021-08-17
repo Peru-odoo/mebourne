@@ -19,4 +19,15 @@
             </xpath>
         </field>
     </record>
+       <record id="view_purchase_order_search_inherit" model="ir.ui.view">
+        <field name="name">report.purchase.order.search</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_search"/>
+        <field name="arch" type="xml">
+           <xpath expr="//filter[@name='group_category_id']" position="replace">
+               <filter string="Product Brand" name="group_category_id" context="{'group_by':'category_id'}"/>
+           </xpath>
+        </field>
+    </record>
+
 </odoo>

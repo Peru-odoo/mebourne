@@ -9,11 +9,12 @@
     'author': "Asiamatrix",
     'website': "http://www.asiamatrixsoftware.com",
     'category': 'Product',
-    'version': '1.2',
+    'version': '1.3',
     'depends': ['product','sale','product_brand','multi_branches','account_accountant',],
     'data': [
         'views/product_category.xml',
         'views/sale_order_line_view.xml',
         'views/purchase_request_view.xml',
+        'views/invoice_report_view.xml',
     ],
 }

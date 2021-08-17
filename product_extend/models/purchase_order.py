@@ -10,7 +10,19 @@ class StockPicking(models.Model):
 
 class ProductCategory(models.Model):
     _inherit = "product.category"
-    parent_id = fields.Many2one('product.category', 'Parent Brand', index=True, ondelete='cascade')
+    parent_id = fields.Many2one('product.category', ' Parent Brand', index=True, ondelete='cascade')
+
+    def check_access_domain(self):
+
+        return {
+                'type': 'ir.actions.act_window',
+                'name': ('Product Brand'),
+                'res_model': 'product.category',
+                'view_mode': 'tree',
+
+                }
+
+
 
 
 class ProductTemplate(models.Model):
@@ -54,3 +66,8 @@ class PurchseOrderLine(models.Model):
     def _onchange_product(self):
         product_tempalte_obj = self.env['product.template'].search([('id', '=', self.product_id.product_tmpl_id.id)])
         self.brand_id = product_tempalte_obj.brand_id
+
+
+class PurchaseReport(models.Model):
+    _inherit = 'purchase.report'
+    category_id = fields.Many2one('product.category', 'Product Brand', readonly=True)
