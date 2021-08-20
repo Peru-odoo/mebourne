@@ -47,7 +47,7 @@ class AgedPayableReport(models.Model):
             DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) as age_day,
             am.name as vendor_bill,
             case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp)) <= 0
-                then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -56,7 +56,7 @@ class AgedPayableReport(models.Model):
                 else ''
                 end as total_0_under,
             case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) >= 1) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 10)
-                then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -65,7 +65,7 @@ class AgedPayableReport(models.Model):
                 else ''
                 end as total_10,
             case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 10) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 20)
-                then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -74,7 +74,7 @@ class AgedPayableReport(models.Model):
                 else ''
                 end as total_20,
             case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 20) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 30)
-                then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -83,7 +83,7 @@ class AgedPayableReport(models.Model):
                 else ''
                 end as total_30,
             case when DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 30
-                then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -92,20 +92,20 @@ class AgedPayableReport(models.Model):
                 else ''
                 end as total_30_over,
             case when cur.name ='USD'
-                then concat('$',(case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end))
+                then concat('$',-(aml.balance))
                 else '$0.0'
                 end as amount_due_usd,
             case when cur.name ='CNY'
-                then concat('¥',(case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end))
+                then concat('¥',-(aml.balance))
                 else '¥0.0'
                 end as amount_due_cny,
             case when cur.name = 'EUR'
-                then concat('EUR',(case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end))
+                then concat('EUR',-(aml.balance))
                 else 'EUR 0.0' 
                 end as amount_due_euro,
             case when cur.name = 'MMK'
-                then CONCAT( CAST((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) AS TEXT),'K')
-                else concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
+                then CONCAT( CAST(-(aml.balance) AS TEXT),'K')
+                else concat(round(-(aml.balance) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
                                             WHERE currency.name = cur.name
@@ -147,7 +147,6 @@ class AgedPayableReport(models.Model):
             apt.name, 
             am.name,
             -(aml.balance),
-            am.amount_residual,
             cur.name
             %s
         """ % (groupby)
