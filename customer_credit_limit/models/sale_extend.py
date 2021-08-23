@@ -14,7 +14,8 @@ class SaleOrder(models.Model):
     @api.depends('partner_id')
     def _get_date_due(self):
         self.invoice_date_due = ''
-        if self.partner_id and (self.over_credit is True):
+        if self.partner_id:
+        # if self.partner_id and (self.over_credit is True):
             query = """ SELECT a.invoice_date_due as date FROM account_move a
                         WHERE a.partner_id is not null
                         AND a.partner_id='""" + str(self.partner_id.id) + """' AND invoice_payment_state='not_paid';"""

@@ -10,7 +10,7 @@ class AccountMove(models.Model):
         copy=False,
         track_visibility='onchange'
     )
-    sale_by = fields.Many2one('hr.employee', string="Sales Person",compute='_get_sale_by')
+    sale_by = fields.Many2one('hr.employee', string="Sales Person",compute='_get_sale_by',readonly=False,store=True)
     contact_id = fields.Char(string='Contact Name')
     contact_phone = fields.Char('Contact Phone')
     contact_address = fields.Char('Contact Address')

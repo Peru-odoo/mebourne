@@ -14,6 +14,7 @@ class CustomerCreditLimitReport(models.Model):
     due_date = fields.Date("Due Date")
     invoice_number = fields.Char("Invoice No")
     invoice_amount = fields.Float("Invoice Amount")
+    amount_due = fields.Float("Amount Due")
 
     def _query(self, with_clause='', fields={}, groupby='', from_clause='', where=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
@@ -26,7 +27,8 @@ class CustomerCreditLimitReport(models.Model):
             am.invoice_date as invoice_date,
             am.invoice_date_due as due_date,
             am.name as invoice_number,
-            am.amount_total as invoice_amount
+            am.amount_total as invoice_amount,
+            am.amount_residual as amount_due
         """
         for field in fields.values():
             select_ += field
@@ -50,7 +52,8 @@ class CustomerCreditLimitReport(models.Model):
             am.invoice_date,
             am.invoice_date_due,
             am.name,
-            am.amount_total            
+            am.amount_total,
+            am.amount_residual            
             %s
         """ % (groupby)
 

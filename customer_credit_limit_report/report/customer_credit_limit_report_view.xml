@@ -12,6 +12,7 @@
                 <field name="due_date" optional="show"/>
                 <field name="invoice_number" optional="show"/>
                 <field name="invoice_amount" optional="show"/>
+                <field name="amount_due" optional="show"/>
             </tree>
         </field>
     </record>
@@ -28,6 +29,7 @@
                 <field name="due_date"/>
                 <field name="invoice_number"/>
                 <field name="invoice_amount"/>
+                <field name="amount_due"/>
             </pivot>
         </field>
     </record>
@@ -59,17 +61,22 @@
     </record>
 
     <record id="action_credit_report_report" model="ir.actions.act_window">
-        <field name="name">credit limit report</field>
+        <field name="name">Customer Credit Limit Report</field>
         <field name="res_model">credit.limit.report</field>
         <field name="view_mode">tree,pivot</field>
         <!-- <field name="context">{'group_by': 'partner_id'}</field> -->
         <field name="search_view_id" ref="view_credit_limit_report_search"/>
     </record>
 
-    <!-- <menulimit id="menu_credit_limit_report_report"
-              name="credit limit report Report"
+    <menuitem id="menu_credit_limit_report_report"
+              name="Customer Credit Limit Report"
               action="action_credit_report_report"
-              sequence="10"
-              parent="credit.credit_report"/> -->
+              sequence="30"
+              parent="account_reports.account_reports_partners_reports_menu"/>
+    <menuitem id="menu_credit_limit_report_report_sale"
+              name="Customer Credit Limit Report"
+              action="action_credit_report_report"
+              sequence="30"
+              parent="sale.menu_sale_report"/>
 
 </odoo>

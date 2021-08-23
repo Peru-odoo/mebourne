@@ -15,7 +15,7 @@
         </xpath>
         <xpath expr="//field[@name='location_dest_id']" position="after">
           <field name="team_id" widget="selection" attrs="{'invisible': ['|',('transfer_type', '=', 'normal'),('picking_type_code', '=', 'incoming')]}"/>
-          <field name="sale_person" attrs="{'invisible': ['|',('transfer_type', '=', 'normal'),('picking_type_code', '=', 'incoming')]}"/>
+          <field name="sale_person" attrs="{'invisible': ['|',('transfer_type', '=', 'normal'),('picking_type_code', '=', 'incoming')]}" invisible="1"/>
           <field name="sale_by" attrs="{'invisible': ['|',('transfer_type', '=', 'normal'),('picking_type_code', '=', 'incoming')]}" options='{"no_open": True,"no_create":True}'/>
           <field name="transfer_type" readonly="0" invisible="1"/>
         </xpath>
@@ -45,6 +45,13 @@
           </page>
 
         </xpath>
+          <xpath expr="//notebook//page[1]" position="replace">
+               <page string="Detailed Operations" invisible="1">
+                            <field name="move_line_nosuggest_ids" attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
+                               <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}"/>
+                            <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
+                </page>
+          </xpath>
         <xpath expr="//tree/field[@name='quantity_done']" position="replace">
            <field name="quantity_done" string="Done" />
         </xpath>

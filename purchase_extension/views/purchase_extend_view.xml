@@ -23,6 +23,9 @@
                         <field name="country_id" placeholder="ZIP" class="o_address_street" options='{"no_open": True}'/>
                     </div>
 	      		</xpath>
+				<xpath expr="//field[@name='picking_type_id']" position="replace">
+					<field name="picking_type_id" invisible="1"/>
+				</xpath>
 	      	</field>
 	    </record>
 	</data>

@@ -14,7 +14,7 @@
 
     'category': 'Report',
 
-    'version': '0.1',
+    'version': '0.2',
 
     'depends': [
         'customer_credit_limit',
@@ -24,7 +24,7 @@
     'data': [
         'security/ir.model.access.csv',
         'report/customer_credit_limit_report_view.xml',
-        'wizard/customer_credit_limit_report_wizard_view.xml'
+        # 'wizard/customer_credit_limit_report_wizard_view.xml'
     ],
 
     'installable': True,

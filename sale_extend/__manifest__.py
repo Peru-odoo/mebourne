@@ -14,12 +14,13 @@
 
     'category': 'Sale',
 
-    'version': '1.2',
+    'version': '1.3',
 
     'depends': [
         'sale',
         'hr',
         'sample_give_form',
+        'base_customer_supplier',
     ],
 
     'data': [

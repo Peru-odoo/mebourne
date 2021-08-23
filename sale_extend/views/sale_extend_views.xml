@@ -63,9 +63,20 @@
         </xpath>
         <xpath expr="//field[@name='team_id']" position="replace">
         </xpath>
+
+        <xpath expr="//notebook//page//group[@name='sale_shipping']" position="replace">
+            <group name="sale_shipping">
+                    <field name="picking_policy"/>
+                    <label for="commitment_date" string="Delivery Date"/>
+                    <div class="o_row">
+                        <field name="commitment_date"/> <span class="text-muted">Expected: <field name="expected_date" widget="date"/></span>
+                    </div>
+              </group>
+        </xpath>
+
         <xpath expr="//field[@name='partner_shipping_id']" position="after">
             <field name="team_id" widget="selection"/>
-            <field name="user_id" string="Sale By"/>
+            <field name="user_id" string="Sale By" invisible="1"/>
             <field name="sale_by" options='{"no_open": True,"no_create":True}'/>
         </xpath>
         <xpath expr="//page[@name='other_information']/group[1]/group[2]/field[@name='analytic_account_id']" position="attributes">
@@ -82,9 +93,9 @@
             <xpath expr="//search/field[@name='team_id']" position="after">
               <field name="sale_by"/>
             </xpath>
-            <xpath expr="//search/group" position="inside">
-              <filter string="Sale By" name="Sale By" context="{'group_by':'sale_by'}"/>
-            </xpath>
+<!--            <xpath expr="//search/group" position="inside">-->
+<!--              <filter string="Sale By" name="Sale By" context="{'group_by':'sale_by'}"/>-->
+<!--            </xpath>-->
         </field>
     </record>
     <record id="view_order_tree_state" model="ir.ui.view">
