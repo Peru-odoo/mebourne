@@ -15,10 +15,14 @@ class AccountMove(models.Model):
                 return branch.inv_sequence_id
             elif self.type in 'out_refund' or not journal.refund_sequence:
                 return branch.credit_sequence_id
+            elif self.type in 'out_receipt' or not journal.refund_sequence:
+                return branch.out_receipt_sequence_id
             elif self.type in 'in_invoice' or not journal.refund_sequence:
                 return branch.bill_sequence_id
             elif self.type in 'in_refund' or not journal.refund_sequence:
                 return branch.refund_sequence_id
+            elif self.type in 'in_receipt' or not journal.refund_sequence:
+                return branch.in_receipt_sequence_id
             if not journal.refund_sequence_id:
                 return
             return journal.refund_sequence_id

@@ -29,11 +29,21 @@ class Branch(models.Model):
     credit_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
     credit_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_credit_seq_number_next',
                                                inverse='_inverse_credit_seq_number_next')
+    out_receipt_code = fields.Char('Invoice Receipt Code')
+    out_receipt_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
+    out_receipt_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_out_receipt_seq_number_next',
+                                                 inverse='_inverse_out_receipt_seq_number_next')
 
     refund_code = fields.Char('Refund Code')
     refund_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
     refund_sequence_number_next = fields.Integer(string='Next Number', compute='_compute_refund_seq_number_next',
                                                  inverse='_inverse_refund_seq_number_next')
+
+    in_receipt_code = fields.Char('Bill Receipt Code')
+    in_receipt_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
+    in_receipt_sequence_number_next = fields.Integer(string='Next Number',
+                                                      compute='_compute_in_receipt_seq_number_next',
+                                                      inverse='_inverse_in_receipt_seq_number_next')
 
     cus_code = fields.Char('Customer Payment Code')
     cus_sequence_id = fields.Many2one('ir.sequence', string='Entry Sequence', required=True, copy=False)
@@ -100,6 +110,15 @@ class Branch(models.Model):
             else:
                 branch.credit_sequence_number_next = 1
 
+    @api.depends('out_receipt_sequence_id.number_next_actual')
+    def _compute_out_receipt_seq_number_next(self):
+        for branch in self:
+            if branch.out_receipt_sequence_id:
+                sequence = branch.out_receipt_sequence_id._get_current_sequence()
+                branch.out_receipt_sequence_number_next = sequence.number_next_actual
+            else:
+                branch.out_receipt_sequence_number_next = 1
+
     @api.depends('refund_sequence_id.number_next_actual')
     def _compute_refund_seq_number_next(self):
         for branch in self:
@@ -108,6 +127,15 @@ class Branch(models.Model):
                 branch.refund_sequence_number_next = sequence.number_next_actual
             else:
                 branch.refund_sequence_number_next = 1
+
+    @api.depends('in_receipt_sequence_id.number_next_actual')
+    def _compute_in_receipt_seq_number_next(self):
+        for branch in self:
+            if branch.in_receipt_sequence_id:
+                sequence = branch.in_receipt_sequence_id._get_current_sequence()
+                branch.in_receipt_sequence_number_next = sequence.number_next_actual
+            else:
+                branch.in_receipt_sequence_number_next = 1
 
     @api.depends('cus_sequence_id.number_next_actual')
     def _compute_cus_seq_number_next(self):
@@ -175,11 +203,23 @@ class Branch(models.Model):
                 sequence = branch.credit_sequence_id._get_current_sequence()
                 sequence.sudo().number_next = branch.credit_sequence_number_next
 
+    def _inverse_in_receipt_seq_number_next(self):
+        for branch in self:
+            if branch.in_receipt_sequence_id and branch.in_receipt_sequence_number_next:
+                sequence = branch.in_receipt_sequence_id._get_current_sequence()
+                sequence.sudo().number_next = branch.in_receipt_sequence_number_next
+
     def _inverse_refund_seq_number_next(self):
         for branch in self:
             if branch.refund_sequence_id and branch.refund_sequence_number_next:
                 sequence = branch.refund_sequence_id._get_current_sequence()
                 sequence.sudo().number_next = branch.refund_sequence_number_next
+
+    def _inverse_out_receipt_seq_number_next(self):
+        for branch in self:
+            if branch.out_receipt_sequence_id and branch.out_receipt_sequence_number_next:
+                sequence = branch.out_receipt_sequence_id._get_current_sequence()
+                sequence.sudo().number_next = branch.out_receipt_sequence_number_next
 
     def _inverse_cus_seq_number_next(self):
         for branch in self:
@@ -231,8 +271,18 @@ class Branch(models.Model):
         return prefix + '/%(range_year)s/'
 
     @api.model
+    def _get_in_receipt_sequence_prefix(self, in_receipt_code):
+        prefix = in_receipt_code.upper()
+        return prefix + '/%(range_year)s/'
+
+    @api.model
     def _get_refund_sequence_prefix(self, refund_code):
         prefix = refund_code.upper()
+        return prefix + '/%(range_year)s/'
+
+    @api.model
+    def _get_out_receipt_sequence_prefix(self, out_receipt_code):
+        prefix = out_receipt_code.upper()
         return prefix + '/%(range_year)s/'
 
     @api.model
@@ -331,9 +381,39 @@ class Branch(models.Model):
         return seq
 
     @api.model
+    def _create_in_receipt_sequence(self, vals):
+        prefix = self._get_in_receipt_sequence_prefix(vals['in_receipt_code'])
+        seq_name = vals['in_receipt_code']
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 3,
+            'number_increment': 1,
+            'use_date_range': False,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
     def _create_refund_sequence(self, vals):
         prefix = self._get_refund_sequence_prefix(vals['refund_code'])
         seq_name = vals['refund_code']
+        seq = {
+            'name': _('%s Sequence') % seq_name,
+            'implementation': 'no_gap',
+            'prefix': prefix,
+            'padding': 3,
+            'number_increment': 1,
+            'use_date_range': False,
+        }
+        seq = self.env['ir.sequence'].create(seq)
+        return seq
+
+    @api.model
+    def _create_out_receipt_sequence(self, vals):
+        prefix = self._get_out_receipt_sequence_prefix(vals['out_receipt_code'])
+        seq_name = vals['out_receipt_code']
         seq = {
             'name': _('%s Sequence') % seq_name,
             'implementation': 'no_gap',
@@ -417,8 +497,12 @@ class Branch(models.Model):
             vals.update({'bill_sequence_id': self.sudo()._create_bill_sequence(vals).id})
         if not vals.get('credit_sequence_id'):
             vals.update({'credit_sequence_id': self.sudo()._create_credit_sequence(vals).id})
+        if not vals.get('in_receipt_sequence_id'):
+            vals.update({'in_receipt_sequence_id': self.sudo()._create_in_receipt_sequence(vals).id})
         if not vals.get('refund_sequence_id'):
             vals.update({'refund_sequence_id': self.sudo()._create_refund_sequence(vals).id})
+        if not vals.get('out_receipt_sequence_id'):
+            vals.update({'out_receipt_sequence_id': self.sudo()._create_out_receipt_sequence(vals).id})
         if not vals.get('cus_sequence_id'):
             vals.update({'cus_sequence_id': self.sudo()._create_cus_sequence(vals).id})
         if not vals.get('cusout_sequence_id'):
