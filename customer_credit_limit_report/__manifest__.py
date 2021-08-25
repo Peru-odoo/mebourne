@@ -14,7 +14,7 @@
 
     'category': 'Report',
 
-    'version': '0.2',
+    'version': '0.3',
 
     'depends': [
         'customer_credit_limit',

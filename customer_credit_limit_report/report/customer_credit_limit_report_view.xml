@@ -13,6 +13,7 @@
                 <field name="invoice_number" optional="show"/>
                 <field name="invoice_amount" optional="show"/>
                 <field name="amount_due" optional="show"/>
+                <field name="invoice_payment_state" optional="show"/>
             </tree>
         </field>
     </record>
@@ -30,6 +31,7 @@
                 <field name="invoice_number"/>
                 <field name="invoice_amount"/>
                 <field name="amount_due"/>
+                <field name="invoice_payment_state"/>
             </pivot>
         </field>
     </record>
@@ -48,6 +50,7 @@
                 <separator/>
                 <field name="invoice_number"/>
                 <field name="invoice_amount"/>
+                <field name="invoice_payment_state"/>
                 <group expand="1" string="Group By">
                     <filter string="Customer Name" name="partner_id" context="{'group_by':'partner_id'}"/>
                     <filter string="Credit Limit Amount" name="credit_limit_amount" context="{'group_by':'credit_limit_amount'}"/>
@@ -55,6 +58,7 @@
                     <filter string="Invoice Date" name="invoice_date" context="{'group_by':'invoice_date'}"/>
                     <filter string="Due Date" name="due_date" context="{'group_by':'due_date'}"/>
                     <filter string="Invoice No" name="invoice_number" context="{'group_by':'invoice_number'}"/>
+                    <filter string="Payment Status" name="by_invoice_payment_state" context="{'group_by':'invoice_payment_state'}"/>
                 </group>
             </search>
         </field>

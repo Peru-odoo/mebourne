@@ -23,8 +23,16 @@
                         <field name="country_id" placeholder="ZIP" class="o_address_street" options='{"no_open": True}'/>
                     </div>
 	      		</xpath>
-				<xpath expr="//field[@name='picking_type_id']" position="replace">
-					<field name="picking_type_id" invisible="1"/>
+
+                <xpath expr="//group[@name='planning']" position="replace">
+					<group name="planning">
+                        <label for="date_planned"/>
+                        <div>
+                            <field name="date_planned" attrs="{'readonly': [('state', 'not in', ('draft', 'sent'))]}"/>
+                        </div>
+                        <field name="picking_type_id" invisible="1"/>
+                        <field name="incoterm_id"/>
+                      </group>
 				</xpath>
 	      	</field>
 	    </record>

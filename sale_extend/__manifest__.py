@@ -14,7 +14,7 @@
 
     'category': 'Sale',
 
-    'version': '1.3',
+    'version': '1.4',
 
     'depends': [
         'sale',
