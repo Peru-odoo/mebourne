@@ -41,12 +41,12 @@ class AgedPayableReport(models.Model):
             crp.name as contact_name,
             branch.name as branch,
             am.invoice_date as date,
-            am.invoice_date_due as due_date,
+            aml.date as due_date,
             am.invoice_origin as po_number,
             apt.name as invoice_payment_term_id, 
-            DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) as age_day,
+            DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) as age_day,
             am.name as vendor_bill,
-            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp)) <= 0
+            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp)) <= 0
                 then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
@@ -55,7 +55,7 @@ class AgedPayableReport(models.Model):
                 )
                 else ''
                 end as total_0_under,
-            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) >= 1) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 10)
+            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) >= 1) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) <= 10)
                 then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
@@ -64,7 +64,7 @@ class AgedPayableReport(models.Model):
                 )
                 else ''
                 end as total_10,
-            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 10) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 20)
+            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) > 10) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) <= 20)
                 then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
@@ -73,7 +73,7 @@ class AgedPayableReport(models.Model):
                 )
                 else ''
                 end as total_20,
-            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 20) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) <= 30)
+            case when (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) > 20) and (DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) <= 30)
                 then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
@@ -82,7 +82,7 @@ class AgedPayableReport(models.Model):
                 )
                 else ''
                 end as total_30,
-            case when DATE_PART('day', CURRENT_TIMESTAMP::timestamp - am.invoice_date_due::timestamp) > 30
+            case when DATE_PART('day', CURRENT_TIMESTAMP::timestamp - aml.date::timestamp) > 30
                 then concat(round((case when am.amount_residual > 0 then (case when am.type='in_refund' then -(am.amount_residual) else am.amount_residual end) else -(aml.balance) end) / (SELECT currency_rate.rate 
                                             FROM res_currency_rate currency_rate
                                             JOIN res_currency currency ON (currency_rate.currency_id = currency.id)
@@ -142,7 +142,7 @@ class AgedPayableReport(models.Model):
             crp.name,
             branch.name,
             am.invoice_date,
-            am.invoice_date_due,
+            aml.date,
             am.invoice_origin,
             apt.name, 
             am.name,
